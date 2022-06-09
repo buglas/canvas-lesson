@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>刮刮乐</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{
+            margin: 100px;
+            background-image: url("./images/ggl-back.png");
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    const ctx=canvas.getContext('2d');
+
+    /*图像尺寸，遮罩图和背景图尺寸一样*/
+    const [width,height]=[395,188];
+    canvas.width=385;
+    canvas.height=188;
+
+    /*建立图像源*/
+    const img=new Image();
+    img.src='./images/ggl-mask.png';
+    img.onload=function(){
+        /*绘制遮罩层*/
+        ctx.drawImage(img,0,0)
+    };
+
+    /*
+    * 线对象 Line
+    *   ctx 上下文对象
+    *   drawing 是否正在绘图
+    *
+    *   鼠标按下 moveTo(x,y)
+    *       记录正在绘图的状态 drawing
+    *       保存状态
+    *       设置全局合成属性globalCompositeOperation 为destination-out
+    *       线宽lineWidth为30
+    *       moveTo()设置路径起点
+    *   鼠标移动 lineTo(x,y)
+    *       lineTo()绘制下一个点
+    *       stroke()描边
+    *   鼠标抬起 restore()
+    *       状态还原
+    *       取消正在绘图的状态
+    * */
+    class Line{
+        constructor(ctx) {
+            this.ctx=ctx
+            this.drawing=false
+        }
+        moveTo(x,y){
+            const {ctx}=this
+            this.drawing=true
+            ctx.save()
+            ctx.lineWidth=30
+            ctx.globalCompositeOperation='destination-out'
+            ctx.moveTo(x,y)
+        }
+        lineTo(x,y){
+            if(!this.drawing){return}
+            const {ctx}=this
+            ctx.lineTo(x,y)
+            ctx.stroke()
+        }
+        restore(){
+            if(!this.drawing){return}
+            const {ctx}=this
+            ctx.restore()
+            this.drawing=false
+        }
+    }
+
+
+    /*实例化线对象 Line*/
+    const line=new Line(ctx)
+
+    /*==========鼠标事件===========*/
+    /*鼠标按下*/
+    canvas.addEventListener('mousedown',function(event){
+        //鼠标左键按下
+        if(event.buttons===1) {
+            //获取鼠标位置
+            const {x, y} = getMousePos(event);
+            //绘制起点
+            line.moveTo(x,y)
+        }
+    });
+    /*鼠标移动*/
+    canvas.addEventListener('mousemove',function(event){
+        //鼠标左键按下且处于绘图状态
+        if(event.buttons===1) {
+            //获取鼠标位置
+            const {x, y} = getMousePos(event);
+            //绘制下一个点
+            line.lineTo(x,y)
+        }
+    });
+    /*鼠标抬起*/
+    canvas.addEventListener('mouseup',function(event){
+        //鼠标左键按下
+        if(event.buttons===1) {
+            //状态还原
+            line.restore()
+        }
+    });
+
+
+    //获取鼠标在canvas中的位置
+    function getMousePos(event){
+        //获取鼠标位置
+        const {clientX,clientY}=event;
+        //获取canvas 边界位置
+        const {top,left}=canvas.getBoundingClientRect();
+        //计算鼠标在canvas 中的位置
+        const x=clientX-left;
+        const y=clientY-top;
+        return {x,y};
+    }
+
+
+</script>
+</body>
+</html>
+
