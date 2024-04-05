@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合成</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*透明度合成 globalAlpha，取值范围[0,1]*/
+    ctx.save()
+    ctx.globalAlpha=0.5
+    ctx.fillRect(200,100,400,200)
+    ctx.restore()
+
+    ctx.fillRect(300,200,400,200)
+
+
+
+
+</script>
+</body>
+</html>

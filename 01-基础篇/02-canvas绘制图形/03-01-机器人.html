@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机器人</title>
+    <style>
+        body{margin: 0;overflow: hidden;}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    //颜色
+    //填充色
+    ctx.fillStyle='red';
+
+    //描边宽度
+    ctx.lineWidth=40;
+
+    /*
+    面部
+    填充方法：fillRect(x,y,w,h)
+    */
+    ctx.fillRect(50,250,400,200)
+
+    /*
+    面部轮廓
+    描边方法：strokeRect(x,y,w,h)
+    */
+    ctx.strokeRect(50,250,400,200)
+
+    /*
+    眼罩
+    清理矩形方法：clearRect(x,y,w,h)
+    */
+    ctx.clearRect(50,300,400,60)
+
+    /*
+    嘴巴
+    直线：lineTo(x,y)
+    */
+    ctx.beginPath()
+    ctx.moveTo(150,400)
+    ctx.lineTo(350,400)
+    ctx.stroke()
+
+    /*
+    眼睛
+    arc(x,y,半径，开始弧度，结束弧度，方向)
+    */
+    ctx.beginPath()
+    ctx.arc(
+        150,330,
+        20,
+        0,Math.PI*2
+    )
+    ctx.moveTo(350-20,340)
+    ctx.arc(
+        350,340,
+        20,
+        Math.PI,0
+    )
+    ctx.fill()
+
+    /*
+    天线
+    bezierCurverTo(cpx1,cpy1,cpx2,cpy2,x,y)
+    */
+    ctx.beginPath()
+    ctx.moveTo(50,50)
+    ctx.bezierCurveTo(
+        150,50,
+        150,250,
+        250,250
+    )
+    ctx.moveTo(450,50)
+    ctx.bezierCurveTo(
+        350,50,
+        350,250,
+        250,250
+    )
+    ctx.stroke()
+
+</script>
+</body>
+</html>

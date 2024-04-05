@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时钟</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    const ctx=canvas.getContext('2d');
+
+    //色系
+    const [redA,redB,yellow]=['#db655c','#d63d46','#9f8d7d'];
+
+    //一圈的弧度
+    const c=Math.PI*2;
+
+    //canvas 宽高
+    const {width,height}=canvas;
+
+
+
+    !(function render(){
+        ctx.clearRect(0,0,width,height)
+        //绘图
+        draw();
+        requestAnimationFrame(render)
+    })()
+
+    function draw(){
+        //保存状态
+        ctx.save()
+
+        //整体偏移
+        ctx.translate(width/2,height/2)
+
+        //整体旋转
+        ctx.rotate(-Math.PI/2)
+
+        // 钟表的表框-圆弧路径
+        ctx.save()
+        //内框 - 145,20
+        ctx.lineWidth=20
+        ctx.strokeStyle=redA
+        ctx.beginPath()
+        ctx.arc(0,0,145,0,c)
+        ctx.stroke()
+        //外框 - 155,9
+        ctx.lineWidth=9
+        ctx.strokeStyle=redB
+        ctx.beginPath()
+        ctx.arc(0,0,155,0,c)
+        ctx.stroke()
+        ctx.restore()
+
+        //15分钟一个的刻度 - 直线 - 90,120,4,15
+        ctx.save()
+        ctx.lineWidth=15
+        ctx.strokeStyle=redB
+        ctx.beginPath()
+        for(let i=0;i<4;i++){
+            ctx.moveTo(90,0)
+            ctx.lineTo(120,0)
+            ctx.rotate(c/4)
+        }
+        ctx.stroke()
+        ctx.restore()
+
+        //5分钟一个的刻度 - 直线 - 90,120,12,6
+        ctx.save()
+        ctx.lineWidth=6
+        ctx.strokeStyle=yellow
+        ctx.beginPath()
+        for(let i=0;i<12;i++){
+            if(i%3){
+                ctx.moveTo(90,0)
+                ctx.lineTo(120,0)
+            }
+            ctx.rotate(c/12)
+        }
+        ctx.stroke()
+        ctx.restore()
+
+        //1分钟一个的刻度 - 直线 - 118,120,60,3
+        ctx.save()
+        ctx.lineWidth=3
+        ctx.strokeStyle=yellow
+        ctx.beginPath()
+        for(let i=0;i<60;i++){
+            if(i%5){
+                ctx.moveTo(118,0)
+                ctx.lineTo(120,0)
+            }
+            ctx.rotate(c/60)
+        }
+        ctx.stroke()
+        ctx.restore()
+
+        //基于当前时间获取时、分、秒针的弧度
+        const {rh,rm,rs}=getRadian()
+
+        // 时针 - 直线 - -20，65，9
+        ctx.save()
+        ctx.rotate(rh)
+        ctx.lineWidth=9
+        ctx.strokeStyle=yellow
+        ctx.beginPath()
+        ctx.moveTo(-20,0)
+        ctx.lineTo(65,0)
+        ctx.stroke()
+        ctx.restore()
+
+        // 分针 - 直线 - -28，80，4
+        ctx.save()
+        ctx.rotate(rm)
+        ctx.lineWidth=4
+        ctx.strokeStyle=yellow
+        ctx.beginPath()
+        ctx.moveTo(-28,0)
+        ctx.lineTo(80,0)
+        ctx.stroke()
+        ctx.restore()
+
+        // 秒针 - 直线 - -30，88，2
+        ctx.save()
+        ctx.rotate(rs)
+        ctx.lineWidth=2
+        ctx.strokeStyle=redB
+        ctx.beginPath()
+        ctx.moveTo(-30,0)
+        ctx.lineTo(88,0)
+        ctx.stroke()
+        ctx.restore()
+
+        //圆弧 10
+        ctx.save()
+        ctx.fillStyle=redB
+        ctx.beginPath()
+        ctx.arc(0,0,10,0,c)
+        ctx.fill()
+        ctx.restore()
+
+        //还原上一次save 的状态
+        ctx.restore()
+    }
+
+    //基于当前时间获取时、分、秒针的弧度
+    function getRadian(){
+        /*获取当前时间的时分秒*/
+        //获取当前时间
+        const date=new Date();
+        //当前小时 getHours
+        let h=date.getHours();
+        if(h>12){h-=12}
+        //当前分钟 getMinutes
+        let m=date.getMinutes();
+        //当前秒 getSeconds
+        let s=date.getSeconds();
+
+        /*基于时间比，计算指针在圆周中的弧度*/
+        //时针旋转弧度
+        const rh=c*h/12+c*m/12/60+c*s/12/60/60;
+        //分针旋转弧度
+        const rm=c*m/60+c*s/60/60;
+        //秒针旋转弧度
+        const rs=c*s/60;
+
+        //返回三个弧度
+        return {rh,rm,rs};
+    }
+
+
+
+
+</script>
+</body>
+</html>

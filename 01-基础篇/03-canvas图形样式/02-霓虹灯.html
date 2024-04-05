@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>霓虹灯</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: #000;
+        }
+    </style>
+
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    //颜色数组
+    const colors=['red','yellow'];
+
+    function draw(){
+        //保存上下文对象的状态
+        ctx.save();
+        //偏移坐标系
+        ctx.translate(300,400);
+        //开始绘制路径
+        ctx.beginPath();
+        //向路径集合中添加子路径
+        //绘制心形子路径
+        //设置路径起点
+        ctx.moveTo(0,0);
+        //用两个三次贝塞尔曲线组成爱心
+        ctx.bezierCurveTo(-200,-50,-180,-300,0,-200);
+        ctx.bezierCurveTo(180,-300,200,-50,0,0);
+        //设置描边宽度
+        ctx.lineWidth=10;
+        //描边颜色
+        ctx.strokeStyle=colors[0];
+        //虚线
+        ctx.setLineDash([30])
+        //以描边的方式显示路径
+        ctx.stroke();
+
+        //描边颜色
+        ctx.strokeStyle=colors[1]
+        //虚线偏移
+        ctx.lineDashOffset=30
+        ctx.stroke();
+
+        //将上下文对象的状态恢复到上一次保存时的状态
+        ctx.restore();
+    }
+
+    draw();
+
+    //连续渲染
+    let t1=0
+    !(function ani(t=0){
+        const t2=t%200
+        /*
+        * t=201
+        * t2=1
+        * t1=180
+        * t1>t2
+        * */
+        if(t1>t2){
+            colors.reverse()
+            draw()
+        }
+        t1=t2
+        requestAnimationFrame(ani)
+    })()
+
+
+
+</script>
+</body>
+</html>

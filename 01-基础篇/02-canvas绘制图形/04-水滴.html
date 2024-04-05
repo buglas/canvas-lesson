@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水滴</title>
+    <style>
+        html{height: 100%;overflow: hidden}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*
+    三次贝塞尔曲线：bezierCurverTo(cpx1,cpy1,cpx2,cpy2,x,y)
+    圆弧：arc(x,y,半径，开始弧度，结束弧度，方向)
+    */
+    ctx.fillStyle='#00acec'
+
+    ctx.translate(canvas.width/2,canvas.height/2)
+
+    //开始新路径
+    ctx.beginPath()
+
+    //指定起点，建立子路径
+    ctx.moveTo(0,0)
+
+    //绘制二次贝塞尔曲线
+    ctx.quadraticCurveTo(50,-50,50,-100)
+
+    //绘制圆弧
+    ctx.arc(
+        0,-100,
+        50,
+        0,Math.PI,
+        true
+    )
+
+    //绘制二次贝塞尔曲线
+    ctx.quadraticCurveTo(
+        -50,-50,
+        0,0
+    )
+
+    //显示路径
+    ctx.stroke()
+    ctx.fill()
+
+</script>
+</body>
+</html>

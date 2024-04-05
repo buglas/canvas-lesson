@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>状态管理 </title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*
+    保存当前状态：save()
+    恢复上一次保存的状态：restore()
+    */
+    ctx.save() //fillStyle='#000
+    ctx.fillStyle='green';
+    ctx.fillRect(50,50,400,200);
+    ctx.restore()//fillStyle='#000
+
+    ctx.fillRect(50,300,400,200)
+
+
+
+</script>
+</body>
+</html>

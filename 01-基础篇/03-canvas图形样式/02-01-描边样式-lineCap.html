@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>描边样式</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*strokeStyle：描边的着色样式*/
+    ctx.strokeStyle='maroon';
+
+    /*lineWidth：描边宽*/
+    ctx.lineWidth=40;
+
+    /*lineCap 描边端点样式
+    *   butt 没有端点，默认
+    *   round 圆形端点
+    *   square 方形端点
+    * */
+    ctx.save();
+    ctx.lineCap='butt'
+    ctx.beginPath();
+    ctx.moveTo(50,50);
+    ctx.lineTo(400,50);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.lineCap='round'
+    ctx.beginPath();
+    ctx.moveTo(50,150);
+    ctx.lineTo(400,150);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.lineCap='square'
+    ctx.beginPath();
+    ctx.moveTo(50,250);
+    ctx.lineTo(400,250);
+    ctx.stroke();
+    ctx.restore();
+
+</script>
+</body>
+</html>

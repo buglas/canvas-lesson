@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>描边样式</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*strokeStyle：描边的着色样式*/
+    ctx.strokeStyle='maroon';
+
+    /*lineWidth：描边宽*/
+    ctx.lineWidth=40;
+
+    /*miterLimit 拐角限制，number 类型，如2,1,3*/
+    ctx.save();
+    ctx.miterLimit=2
+    ctx.beginPath();
+    ctx.moveTo(50,50);
+    ctx.lineTo(400,50);
+    ctx.lineTo(200,150);
+    ctx.stroke();
+    ctx.restore();
+
+</script>
+</body>
+</html>

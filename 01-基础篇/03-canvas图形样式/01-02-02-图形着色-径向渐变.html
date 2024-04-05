@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>径向渐变</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas 充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔-上下文对象
+    const ctx=canvas.getContext('2d');
+
+    /*
+    1.建立渐变对象，定义渐变的区域
+    径向渐变  createRadialGradient(x1, y1, r1, x2, y2, r2)
+    */
+    const [x,y]=[canvas.width/2,canvas.height/2]
+    const radialGradient=ctx.createRadialGradient(
+        x,y,50,
+        x+300,y+300,x
+    )
+
+    /*
+    2.为渐变添加颜色节点
+    addColorStop(position, color)
+    */
+    radialGradient.addColorStop(0,'red')
+    radialGradient.addColorStop(0.5,'yellow')
+    radialGradient.addColorStop(1,'green')
+
+
+    /*
+    3.为样式赋值
+    */
+    ctx.fillStyle=radialGradient
+
+
+    /*
+    4.绘图
+    */
+    ctx.fillRect(
+        0,0,
+        canvas.width,canvas.height
+    )
+
+
+
+</script>
+</body>
+</html>

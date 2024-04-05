@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>纹理</title>
+    <style>
+        html, body {margin: 0;height: 100%;}
+        #rec {width: 100%;height: 100%;}
+    </style>
+</head>
+<body>
+<div id="rec">
+    <canvas id="canvas"></canvas>
+</div>
+
+<script>
+    const rec=document.getElementById('rec');
+    const canvas=document.getElementById('canvas');
+    const {clientWidth,clientHeight}=rec;
+    canvas.width=clientWidth;
+    canvas.height=clientHeight;
+    const ctx=canvas.getContext('2d');
+
+    //地板和瓷砖
+    const floor=new Image();
+    floor.src='./images/floor.jpg';
+    const tile=new Image();
+    tile.src='./images/tile.jpg';
+
+    //当所有图片都加载成功后再绘图
+    Promise.all([imgPro(floor),imgPro(tile)]).then(()=>{
+        //绘图方法
+        draw();
+    });
+    //建立Promise 对象，指定img 加载成功后，执行resolve
+    function imgPro(img){
+        return new Promise((resolve)=>{
+            img.onload=function(){
+                resolve(img);
+            }
+        });
+    }
+
+    //绘图
+    function draw(){
+        //纹理对象
+        const  ptf=ctx.createPattern(floor,'repeat');
+        const  ptt=ctx.createPattern(tile,'repeat');
+        //赋值
+        ctx.fillStyle=ptf;
+        ctx.strokeStyle=ptt;
+        //描边宽度
+        ctx.lineWidth=60;
+        //绘图
+        ctx.fillRect(0,0,clientWidth,clientHeight);
+        ctx.strokeRect(0,0,clientWidth,clientHeight);
+    }
+
+
+</script>
+</body>
+</html>

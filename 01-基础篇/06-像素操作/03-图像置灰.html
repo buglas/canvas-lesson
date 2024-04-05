@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像置灰</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    const img=new Image();
+    img.src='./images/river.jpg';
+    img.onload=draw;
+
+    /*灰度算法: 0.299*r+0.587*g+0.114*b */
+
+    function draw(){
+        //图像尺寸
+        const {width,height}=img;
+
+        /*1.在canvas 中绘制图像*/
+        ctx.drawImage(img,0,0);
+
+        /*2.从canvas 中获取图像的ImageData*/
+        const imgDt=ctx.getImageData(0,0,width,height);
+        const data=imgDt.data;
+
+        /*像素遍历*/
+        for(let i=0;i<data.length;i+=4){
+            const [r,g,b]=[
+                data[i],
+                data[i+1],
+                data[i+2],
+            ]
+            const lm=0.299*r+0.587*g+0.114*b;
+            data[i]=lm;
+            data[i+1]=lm;
+            data[i+2]=lm;
+        }
+
+
+        /*3.在canvas 中显示ImageData*/
+        ctx.putImageData(imgDt,0,0);
+
+    }
+
+</script>
+</body>
+</html>
+

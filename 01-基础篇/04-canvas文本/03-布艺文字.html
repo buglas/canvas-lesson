@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    /*文字内容*/
+    const text='小小大世界';
+
+    /*文字位置*/
+    const [x,y]=[canvas.width/2,canvas.height/2];
+
+    /*文字居中对齐*/
+    ctx.textAlign='center'
+    // ctx.textBaseline='middle'
+
+    /*字体属性，文字加粗，大小：200px，字体：arial*/
+    ctx.font='bold 200px arial'
+
+    /*投影，颜色：rgba(0,0,0,0.6)，垂直偏移：2，模糊：4*/
+    ctx.shadowColor='rgba(0,0,0,0.6)'
+    ctx.shadowOffsetY=2
+    ctx.shadowBlur=4
+
+    /*填充文字，颜色：#a76921*/
+    ctx.fillStyle='#a76921'
+    ctx.fillText(text,x,y)
+
+    /*实线描边文字，颜色：#f0d5ac，线宽：8*/
+    ctx.strokeStyle='#f0d5ac'
+    ctx.lineWidth=8
+    ctx.strokeText(text,x,y)
+
+    /*虚线描边文字，颜色：#333，线宽：1，线段长度[5,3]*/
+    ctx.strokeStyle='#333'
+    ctx.lineWidth=1
+    ctx.setLineDash([5,3])
+    ctx.strokeText(text,x,y)
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    /*font：设置文本的字号、字体等属性*/
+    ctx.font='bold 50px arial'
+
+    /*绘制文本*/
+    ctx.fillText('好好学习，天天向上！',100,200)
+
+
+
+</script>
+</body>
+</html>

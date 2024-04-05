@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>变换 </title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*
+    变换
+    移动： translate(x,y)
+    旋转： rotate(angle)
+    缩放： scale(x,y)
+    */
+    ctx.translate(200,100)
+    ctx.rotate(Math.PI/6)
+    ctx.scale(0.5,0.5)
+    ctx.fillStyle='green';
+    ctx.fillRect(100,100,400,200);
+
+
+
+
+</script>
+</body>
+</html>

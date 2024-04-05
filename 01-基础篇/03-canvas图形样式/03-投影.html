@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投影</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*投影
+        位置：shadowOffsetX , shadowOffsetY
+        模糊度：shadowBlur
+        颜色：shadowColor
+    * */
+    ctx.shadowColor='#000'
+    ctx.shadowOffsetY=30
+    ctx.shadowOffsetX=30
+    ctx.shadowBlur=30
+    ctx.beginPath();
+    ctx.arc(300,200,100,0,Math.PI*2);
+    ctx.fillStyle='#93abff';
+    ctx.fill();
+</script>
+</body>
+</html>

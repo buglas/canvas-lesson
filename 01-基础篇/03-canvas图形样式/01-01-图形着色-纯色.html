@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>纯色</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas 充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔-上下文对象
+    const ctx=canvas.getContext('2d');
+
+    //描边宽度
+    ctx.lineWidth=40;
+
+    /*纯色*/
+    ctx.fillStyle='blue'
+    ctx.fillStyle='#00ff00'
+    ctx.fillStyle='rgb(255,255,0)'
+    ctx.fillStyle='rgba(0,0,0,0.5)'
+    ctx.beginPath();
+    ctx.arc(300,200,100,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(300,300,100,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle='green'
+    ctx.beginPath();
+    ctx.arc(300,400,100,0,Math.PI*2);
+    ctx.stroke();
+
+
+
+</script>
+</body>
+</html>

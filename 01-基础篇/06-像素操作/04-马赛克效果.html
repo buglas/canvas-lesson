@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>马赛克效果</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    //图像源
+    const img=new Image();
+    img.src='./images/wns.jpg';
+    img.onload=render;
+
+    //色块尺寸
+    let size=20;
+
+
+    function render() {
+        //图像尺寸
+        const {width,height}=img;
+
+        /*1.在canvas 中绘制图像*/
+        ctx.drawImage(img,0,0);
+
+        /*2.从canvas 中获取图像的ImageData*/
+        const imgDt=ctx.getImageData(0,0,width,height);
+        const data=imgDt.data;
+
+        /*行列遍历*/
+        for(let y=0;y<height;y+=size){
+            for(let x=0;x<width;x+=size){
+                const ind=(y*width+x)*4;
+                const [r,g,b]=[
+                    data[ind],
+                    data[ind+1],
+                    data[ind+2],
+                ];
+                ctx.fillStyle=`rgb(${r},${g},${b})`;
+                ctx.fillRect(x,y,size,size);
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
+

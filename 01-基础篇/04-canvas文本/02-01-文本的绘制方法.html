@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<!--123456-->
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    //文字内容
+    const text='好好学习';
+    //字体
+    ctx.font='100px arial';
+    //描边宽度
+    ctx.lineWidth=3;
+    //描边色
+    ctx.strokeStyle='red';
+    
+    //获取文本宽度
+    const {width}=ctx.measureText(text)
+    console.log(width)
+
+    /*填充文字 fillText(text, x, y ,maxWidth)*/
+    ctx.fillText(text,100,300,width/2);
+
+    /*描边文字 strokeText(text, x, y ,maxWidth)*/
+    ctx.strokeText(text,100,300,width/2)
+
+</script>
+</body>
+</html>

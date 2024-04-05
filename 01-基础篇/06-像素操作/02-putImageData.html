@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>putImageData</title>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+			#canvas {
+				background: antiquewhite;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<script>
+			const canvas = document.getElementById('canvas')
+			//canvas充满窗口
+			canvas.width = window.innerWidth
+			canvas.height = window.innerHeight
+			const ctx = canvas.getContext('2d')
+
+		
+			const img = new Image()
+			img.src = './images/dog.jpg'
+			img.onload = function () {
+				//获取图片宽高
+				const { width, height } = img
+
+				/*1.在canvas 中绘制图像*/
+				ctx.drawImage(img, 0, 0)
+
+				/*2.从canvas 中获取图像的ImageData*/
+				const imgDt = ctx.getImageData(0, 0, width, height)
+
+				//修改像素
+				const data = imgDt.data
+				for (let i = 0; i < data.length; i += 4) {
+					data[i + 3] = 0
+				}
+
+				/*3.在canvas 中显示ImageData*/
+				ctx.putImageData(imgDt, 0, height)
+				// ctx.putImageData(imgDt,0,height,100,100,200,200);
+			}
+		</script>
+	</body>
+</html>

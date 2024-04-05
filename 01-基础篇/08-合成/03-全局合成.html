@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合成</title>
+    <style>
+        html{height: 100%;overflow: hidden}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*全局合成
+    * source-atop
+    * source-in
+    * source-out
+    * source-over 默认
+    * destination-atop
+    * destination-in
+    * destination-out
+    * destination-over
+    * lighter
+    * copy
+    * xor
+    * ...
+    * */
+    //正方形
+    ctx.fillStyle='orange';
+    ctx.fillRect(100,100,200,200);
+
+    //设置全局合成属性
+    // console.log(ctx.globalCompositeOperation)
+    ctx.globalCompositeOperation='destination-over'
+
+    //圆
+    ctx.beginPath();
+    ctx.arc(300,300,100,0,Math.PI*2);
+    ctx.fillStyle='green';
+    ctx.fill();
+
+
+</script>
+</body>
+</html>

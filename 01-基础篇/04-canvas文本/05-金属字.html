@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>金属字</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    //文字内容
+    const text='HEAVY METAL';
+
+    //文字对齐
+    ctx.textAlign='left'
+    ctx.textBaseline='top'
+
+    //字体属性
+    const fontSize=120
+    ctx.font=`italic bold ${fontSize}px arial`;
+
+    //文字宽度
+    const {width}=ctx.measureText(text)
+
+    //位移坐标系
+    ctx.translate((canvas.width-width)/2,200)
+
+    //描边文字
+    {
+        ctx.save()
+        ctx.miterLimit=4
+        ctx.shadowColor='rgba(0,0,0,0.6)'
+        ctx.shadowOffsetY=5
+        ctx.shadowBlur=3
+        const gradient=ctx.createLinearGradient(
+            0,0,0,fontSize
+        )
+        gradient.addColorStop(0,'#999')
+        gradient.addColorStop(0.2,'#333')
+        gradient.addColorStop(1,'#696970')
+
+        ctx.strokeStyle=gradient
+        ctx.lineWidth=10
+        ctx.strokeText(text,0,0)
+        ctx.restore()
+    }
+
+    //描边文字
+    {
+        ctx.save()
+        ctx.lineJoin='bevel'
+        const gradient=ctx.createLinearGradient(
+            0,0,0,fontSize
+        )
+        gradient.addColorStop(0,'#868487')
+        gradient.addColorStop(0.3,'#3d3b3e')
+        gradient.addColorStop(1,'#fff')
+
+        ctx.strokeStyle=gradient
+        ctx.lineWidth=5
+        ctx.strokeText(text,0,0)
+        ctx.restore()
+    }
+
+    //填充文字
+    {
+        ctx.save()
+        const gradient=ctx.createLinearGradient(
+            0,0,0,fontSize
+        )
+        gradient.addColorStop(0,'#9d9d9d')
+        gradient.addColorStop(0.3,'#ffffff')
+        gradient.addColorStop(0.6,'#3e3f41')
+        gradient.addColorStop(1,'#67686b')
+
+        ctx.fillStyle=gradient
+        ctx.fillText(text,0,0)
+        ctx.restore()
+    }
+</script>
+</body>
+</html>

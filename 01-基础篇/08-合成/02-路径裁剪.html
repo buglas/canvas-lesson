@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合成</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*路径裁剪的步骤：
+    * 1.定义路径
+    * 2.ctx.clip()
+    * 3.绘图
+    */
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(canvas.width/2,canvas.height/2,200,0,Math.PI*2)
+    // ctx.stroke()
+    ctx.clip()
+    ctx.fillRect(
+        0,0,
+        500,500
+    )
+    ctx.restore()
+    ctx.fillRect(
+        0,520,
+        500,500
+    )
+
+
+
+
+
+</script>
+</body>
+</html>

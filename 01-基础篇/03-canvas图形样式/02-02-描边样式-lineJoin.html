@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>描边样式</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+
+    /*strokeStyle：描边的着色样式*/
+    ctx.strokeStyle='maroon';
+
+    /*lineWidth：描边宽*/
+    ctx.lineWidth=40;
+
+    /*lineJoin 拐角类型
+    *   miter 尖角
+    *   round 圆角
+    *   bevel 切角
+    * */
+    ctx.save();
+    ctx.lineJoin='miter'
+    ctx.beginPath();
+    ctx.moveTo(50,50);
+    ctx.lineTo(400,50);
+    ctx.lineTo(200,150);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.lineJoin='round'
+    ctx.beginPath();
+    ctx.moveTo(50,250);
+    ctx.lineTo(400,250);
+    ctx.lineTo(200,350);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.lineJoin='bevel'
+    ctx.beginPath();
+    ctx.moveTo(50,450);
+    ctx.lineTo(400,450);
+    ctx.lineTo(200,550);
+    ctx.stroke();
+    ctx.restore();
+
+
+
+
+
+
+</script>
+</body>
+</html>

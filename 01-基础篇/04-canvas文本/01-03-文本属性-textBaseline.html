@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<!--123456-->
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    /*辅助线*/
+    ctx.strokeStyle='#999';
+    ctx.setLineDash([8]);
+    ctx.moveTo(30,200);
+    ctx.lineTo(700,200);
+    ctx.stroke();
+
+    /*font 设置字号字体*/
+    ctx.font="24px Arial";
+
+    /*
+    * textBaseline 文字垂直对齐方式
+    *   top：上对其
+    *   middle：垂直居中对齐
+    *   bottom：下对齐
+    *   hanging：悬挂基线对齐
+    *   alphabetic：标准字母基线对齐，默认
+    *   ideographic：表意文字基线
+    * */
+    ctx.textBaseline='top'
+    ctx.fillText('top',100,200);
+
+    ctx.textBaseline='middle'
+    ctx.fillText('middle',200,200);
+
+    ctx.textBaseline='bottom'
+    ctx.fillText('bottom',300,200);
+
+    ctx.textBaseline='alphabetic'
+    ctx.fillText('alphabetic',400,200);
+
+</script>
+</body>
+</html>

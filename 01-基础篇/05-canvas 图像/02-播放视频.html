@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视频</title>
+    <style>
+        #canvas{background: antiquewhite}
+    </style>
+</head>
+<body>
+<video id="vid" controls autoplay loop muted>
+    <source src="./images/ripples.mp4" type='video/mp4'>
+</video>
+<div>
+    <canvas id="canvas" width="400" height="282"></canvas>
+</div>
+<script>
+    //获取图像源
+    const vid=document.getElementById('vid');
+    //获取canvas
+    const canvas=document.getElementById('canvas');
+    //获取上下文对象
+    const ctx=canvas.getContext('2d');
+
+
+    /*视频事件：
+    *   play 视频播放
+    *   pause 暂停
+    * */
+    vid.addEventListener('play',function(){
+
+    })
+
+
+
+
+</script>
+</body>
+</html>
+

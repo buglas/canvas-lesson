@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>霓虹灯</title>
+    <style>
+        html{height: 100%;overflow: hidden;}
+        body{height: 100%;margin: 0;}
+        #canvas{
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    //颜色数组
+    const colors=['red','yellow'];
+
+    //文字内容
+    const text='劳动最光荣！';
+
+    //文字对齐
+    ctx.textAlign='left'
+    ctx.textBaseline='middle'
+
+    //字体属性
+    const textW=220
+    ctx.font=`bold ${textW}px arial`;
+
+    //文字宽度
+    const {width}=ctx.measureText(text)
+
+    //文字位置
+    const [x,y]=[(canvas.width-width)/2,canvas.height/2];
+
+    //绘制文字
+    function drawText(text,textX=0,textY=0,i1=0,i2=1){
+        //保存上下文对象的状态
+        ctx.save();
+        //设置描边样式
+        ctx.strokeStyle=colors[i1];
+        //设置描边宽度
+        ctx.lineWidth=3;
+        //虚线
+        ctx.setLineDash([8]);
+        //以描边的方式显示文字
+        ctx.strokeText(text,textX,textY);
+        //第二部分虚线
+        ctx.lineDashOffset=8;
+        ctx.strokeStyle=colors[i2];
+        //光晕
+        ctx.shadowColor='orange';
+        //多画几遍光晕
+        for(let i=25;i>0;i-=2){
+            ctx.shadowBlur=i;
+            ctx.strokeText(text,textX,textY);
+        }
+        //将上下文对象的状态恢复到上一次保存时的状态
+        ctx.restore();
+    }
+
+    //渲染
+    function render(){
+        for(let i=0;i<text.length;i++){
+            drawText(text[i],i*textW+x,y,i%2,(i+1)%2);
+        }
+    }
+
+    /*连续渲染*/
+    let t1=0
+    !(function ani(t){
+        const t2=t%200
+        if(t1>t2){
+            colors.reverse();
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+            render()
+        }
+        t1=t2
+        requestAnimationFrame(ani)
+    })()
+</script>
+</body>
+</html>

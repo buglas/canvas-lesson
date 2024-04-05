@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路径</title>
+    <style>
+        body{margin:0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    /*
+    1.开始建立路径：beginPath()
+    2.向路径集合中添加子路径：
+    [
+        形状; closePath() 可选,
+        moveTo(x,y); 形状; closePath() 可选,
+        moveTo(x,y); 形状; closePath() 可选,
+    ]
+    3.显示路径：填充fill() ，描边stroke()
+    */
+
+    //描边宽度
+    ctx.lineWidth=10
+    //填充色
+    ctx.fillStyle='#00acec'
+
+    /*直线：lineTo(x,y); */
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.lineTo(400,100)
+    ctx.lineTo(400,300)
+    ctx.closePath()
+    ctx.stroke()
+    ctx.fill()*/
+
+    /*arc(x,y,半径，开始弧度，结束弧度，方向)*/
+    /*ctx.beginPath()
+    ctx.arc(
+        400,400,
+        200,
+        0,Math.PI*3/2,
+    )
+    ctx.moveTo(400+200,600)
+    ctx.arc(
+        400,600,
+        200,
+        0,Math.PI*3/2,
+    )
+    ctx.stroke()*/
+
+    /*切线圆弧：arcTo(x1,y1,x2,y2,半径)*/
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.lineTo(400,100)
+    ctx.lineTo(400,300)
+    ctx.stroke()*/
+
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.arcTo(400,100,400,300,100)
+    ctx.stroke()*/
+
+    /*二次贝塞尔曲线：quadraCurveTo(cpx1,cpy1,x,y)*/
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.lineTo(400,100)
+    ctx.lineTo(400,400)
+    ctx.stroke()*/
+
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.quadraticCurveTo(400,100,400,400)
+    ctx.stroke()*/
+
+
+    /*三次贝塞尔曲线：bezierCurveTo(cpx1,cpy1,cpx2,cpy2,x,y)*/
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.lineTo(400,100)
+    ctx.lineTo(400,400)
+    ctx.lineTo(700,400)
+    ctx.stroke()*/
+
+    /*ctx.beginPath()
+    ctx.moveTo(100,100)
+    ctx.bezierCurveTo(
+        400,0,
+        400,400,
+        700,400
+    )
+    ctx.stroke()*/
+
+    /*矩形：rect(x,y,w,h)*/
+    ctx.beginPath()
+    ctx.rect(100,100,400,200)
+    ctx.rect(100,400,400,200)
+    ctx.stroke()
+
+
+</script>
+</body>
+</html>

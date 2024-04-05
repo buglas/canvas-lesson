@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+dir 文字方向
+    rtl 右到左
+    ltr 左到右
+-->
+<!--<html lang="en" dir="rtl">-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<!--123456-->
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    const ctx=canvas.getContext('2d');
+
+    /*辅助线*/
+    ctx.strokeStyle='#999';
+    ctx.setLineDash([8]);
+    ctx.moveTo(300,50);
+    ctx.lineTo(300,600);
+    ctx.stroke();
+
+    /*font 设置字号字体*/
+    ctx.font="24px serif";
+
+    /*
+    * textAlign 文字水平对齐方式
+    *   start：基于文本起始位对齐，默认
+    *   end：基于文本结束位对齐
+    *   left：左对齐
+    *   right：右对齐
+    *   center：居中对齐
+    * */
+    ctx.textAlign='start'
+    ctx.fillText('start',300,100);
+
+    ctx.textAlign='left'
+    ctx.fillText('left',300,150);
+
+    ctx.textAlign='end'
+    ctx.fillText('end',300,200);
+
+    ctx.textAlign='right'
+    ctx.fillText('right',300,250);
+
+    ctx.textAlign='center'
+    ctx.fillText('center',300,300);
+
+</script>
+</body>
+</html>

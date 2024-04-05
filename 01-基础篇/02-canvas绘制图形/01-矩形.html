@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>矩形</title>
+    <style>
+        body{margin:0;overflow: hidden}
+        #canvas{background: antiquewhite;}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔
+    const  ctx=canvas.getContext('2d');
+
+    //描边宽度
+    ctx.lineWidth=40
+
+    //描边颜色
+    ctx.strokeStyle='red'
+
+    /*填充矩形方法：fillRect(x,y,w,h)*/
+    ctx.fillRect(300,200,300,200)
+
+    /*描边矩形方法：strokeRect(x,y,w,h)*/
+    ctx.strokeRect(300,200,300,200)
+
+    //描边线
+    ctx.lineWidth=3
+    ctx.strokeStyle='#000'
+    ctx.strokeRect(300,200,300,200)
+
+    /*清理矩形方法：clearRect(x,y,w,h)*/
+    // ctx.clearRect(300,200,300,200)
+
+</script>
+</body>
+</html>

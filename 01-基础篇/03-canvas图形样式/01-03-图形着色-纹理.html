@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>纹理</title>
+    <style>
+        body{margin: 0;overflow: hidden}
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    const canvas=document.getElementById('canvas');
+    //canvas 充满窗口
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    //画笔-上下文对象
+    const ctx=canvas.getContext('2d');
+
+    /*1.建立图像源
+    *   图像元素：<img>
+    *   视频元素：<video>
+    *   canvas：<canvas>
+    * 2.建立纹理对象，定义重复方式及
+    *   context.createPattern(image,"repeat|repeat-x|repeat-y|no-repeat");
+    * 3.为样式赋值
+    * 4.绘图
+    * */
+    const img=new Image()
+    img.src='./images/floor.jpg'
+    img.onload=()=>{
+        const pattern=ctx.createPattern(img,'repeat')
+        ctx.fillStyle=pattern
+        ctx.fillRect(0,0,canvas.width,canvas.height)
+    }
+
+
+
+</script>
+</body>
+</html>
