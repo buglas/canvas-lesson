@@ -1,0 +1,25 @@
+{
+	"name": "canvas-lmm",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc && vite build",
+		"preview": "vite preview",
+		"test": "vitest --root src"
+	},
+	"dependencies": {
+		"@types/dat.gui": "^0.7.7",
+		"vue": "^3.2.47",
+		"vue-router": "^4.1.6",
+		"dat.gui": "^0.7.9"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^4.1.0",
+		"typescript": "^5.0.2",
+		"vite": "^4.3.2",
+		"vitest": "^0.31.0",
+		"vue-tsc": "^1.4.2"
+	}
+}
