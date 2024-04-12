@@ -35,20 +35,25 @@ class Ray2 {
 		this.origin.add(this.direction.clone().multiplyScalar(t))
 		return this
 	}
+  
+  // 点投影在射线上的有向距离
+  projectDistance(point: Vector2){
+    return _vector
+    .subVectors(point, this.origin)
+    .dot(this.direction)
+  }
 
 	// point在射线上的投影
 	projectByPoint(point: Vector2, target: Vector2 = new Vector2()) {
 		// point 投影在射线上的有向距离
-		const directionDistance = _vector
-			.subVectors(point, this.origin)
-			.dot(this.direction)
+		const distance = this.projectDistance(point)
 
-		// directionDistance 小于等于0时，point无法投影到射线上
-		if (directionDistance < 0) {
+		// distance 小于等于0时，point无法投影到射线上
+		if (distance < 0) {
 			return null
 		}
 
-		return this.at(directionDistance, target)
+		return this.at(distance, target)
 	}
 
 	// 射线到点的距离
@@ -118,28 +123,55 @@ class Ray2 {
 
 	/* 射线在圆弧正面上的交点 */
 	intersectArc(arc: Arc2) {
-		const { direction } = this
-		const { x, y, r} = arc
+		const {origin, direction } = this
+		const { x, y, r,counterclockwise} = arc
 
 		/* 圆心 */
 		const O = new Vector2(x, y)
 
-		/* 垂足 */
+    /* 射线源点是否在圆内 */
+    const isInCircle=new Vector2().subVectors(origin,O).length()<r
+
+    /* 当射线源点在圆内 */
+    if(isInCircle){
+      if(counterclockwise){
+        // 圆心在射线所处的直线上的投影，即垂足
+        const F=this.at(this.projectDistance(O))
+        // 通过三角函数算出垂足到交点的距离平方
+        const bSq = _vector.subVectors(F, O).lengthSq()
+        // 射线与圆的交点
+        const intersection= new Ray2(F,direction.clone()).at(Math.sqrt(r*r-bSq))
+        // 交点在圆弧之上
+        if(arc.isPointInRange(intersection)){
+          return intersection
+        }else{
+          return null
+        }
+      }else{
+        return null
+      }
+    }
+    
+    /* 当射线源不在圆内 */
+		/* 圆心在射线上的投影，可能有垂足，可能没有 */
 		const F = this.projectByPoint(O)
+    /* 若射线背离圆弧，无垂足 */
 		if (!F) {
 			return null
 		}
 
 		/* 垂足到圆心的距离 */
-		const b = _vector.subVectors(F, O).length()
+		const bSq = _vector.subVectors(F, O).lengthSq()
+    /* 半径的平方 */
+    const rSq=r*r
 
 		/* 相离 */
-		if (b > r) {
+		if (bSq > rSq) {
 			return null
 		}
 
 		/* 相切 */
-		if (b === r ) {
+		if (bSq === rSq ) {
       if(arc.isPointInRange(F)){
         return F
       }else{
@@ -149,10 +181,10 @@ class Ray2 {
 
 		/* 相交 */
 		/* 勾股定理求直角边-垂足到交点的距离 */
-		const d = Math.sqrt(r*r-b*b)
+		const d = Math.sqrt(rSq-bSq)
     
-    /* 以垂直为原点，与当前射线同向的射线 */
-    const FRay=new Ray2(F, direction)
+    /* 以垂足为原点，与当前射线同向的射线 */
+    const FRay=new Ray2(F, direction.clone())
     /* 直线与圆相交时有2个交点 */
     const A=FRay.at(d)
     const B=FRay.at(-d)
@@ -166,9 +198,9 @@ class Ray2 {
 		return this.isIntersectionInArcFront(A,arc)||this.isIntersectionInArcFront(B,arc)
 	}
 
-  /* 判断交点是否在圆弧正面 */
+  /* 判断交点是否在圆弧正面上 */
   isIntersectionInArcFront(intersection:Vector2,arc: Arc2){
-    // 交点到圆心的向量的弧度是否在圆弧范围内。
+    // 交点是否在圆弧之上
     if(!arc.isPointInRange(intersection)){
       return null
     }
@@ -179,7 +211,6 @@ class Ray2 {
 
     // 通过点积判断射线是否从圆弧的正面射入
 		const n=new Vector2().subVectors(o, intersection).dot(direction)
-    
 		if (n*m > 0 ) {
 			return intersection
 		}
