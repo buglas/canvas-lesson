@@ -1,5 +1,19 @@
 # canvas 从入门到放飞自我
 
+### 课程简介
+
+这是《canvas 从入门到放飞自我》系列课程的所有代码，当前有三部分：
+
+[01-基础篇](https://www.bilibili.com/video/BV1UA4y1d7QH/?spm_id_from=333.999.0.0&vd_source=fc98bc82ca25234b3a3030baea035443)：零基础入门canvas，讲述canvas常用的API方法，比如图形、样式、图像、文字、合成等。
+
+[02-矩阵变换](https://www.bilibili.com/video/BV14m4y117Lk/?spm_id_from=333.999.0.0&vd_source=fc98bc82ca25234b3a3030baea035443)：将模型矩阵、视图投影矩阵、裁剪空间等多个矩阵与 canvas 内置矩阵无缝对接，实现对任意图形的灵活变换。 最后会使用实战项目-《T 恤图案编辑器》夯实大家的所学。
+
+[03-面试题](https://www.bilibili.com/cheese/play/ss11924)：以我进滴滴时遇到的三个经典面试题为主导，讲述常见的canvas面试题。此课程为付费课程，课程价格会随课程内容的增加有所涨幅，但我会坚持低价原则。
+
+
+
+### 开发当前课程的原因
+
 开发本套canvas课程的目的是因为我喜欢。
 
 我本艺术出身，在十年前接触到了canvas，觉得它可以让我的画笔更加自由，所以就跟着感觉走，走上了前端可视化的道路。
@@ -23,6 +37,10 @@ canvas 的发展潜力和活力依旧是很大的，它并不会因为三维图�
 当然，canvas 不适用于三维图形，三维的世界更加精彩，在三维图形学方面，我会再出一些WebGL、three.js 或者WebGPU相关的课程。
 
 更多精彩，敬请期待……
+
+
+
+### 关于我
 
 我的博客：https://www.yxyy.name/blog/
 
