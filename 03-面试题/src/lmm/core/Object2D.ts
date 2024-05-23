@@ -15,8 +15,7 @@ export type Object2DType = {
 	parent?: Scene | Group | undefined
 	enableCamera?: boolean
 	uuid?: string
-	userData?:{[k:string]:any}
-
+	userData?:object
 }
 
 class Object2D extends EventDispatcher {
@@ -143,6 +142,8 @@ class Object2D extends EventDispatcher {
 
 	/* 绘制图形-接口 */
 	drawShape(ctx: CanvasRenderingContext2D) {}
+
+
 }
 
 export { Object2D }

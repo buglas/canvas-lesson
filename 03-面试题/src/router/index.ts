@@ -17,6 +17,18 @@ const routes = [
 		path: '/BulletScreenTest',
 		component: () => import('../examples/BulletScreenTest.vue'),
 	},
+  {
+		path: '/BoundingBox',
+		component: () => import('../examples/BoundingBox.vue'),
+	},
+  {
+		path: '/BVH01',
+		component: () => import('../examples/BVH01.vue'),
+	},
+  {
+		path: '/BVH02',
+		component: () => import('../examples/BVH02.vue'),
+	},
 ]
 const router = createRouter({
 	history: createWebHistory(),

@@ -7,7 +7,7 @@ import { Segment2 } from '../math/Segment2'
 import { Vector2 } from '../math/Vector2'
 import { Graph2D } from '../objects/Graph2D'
 import { StandStyle } from '../style/StandStyle'
-import { BVHBox } from './BVHBox'
+import { BVH } from './BVH'
 
 /* 相交物体的类型，当前只有PolyExtend类型，后续可扩展。 */
 type ObjectForIntersect = Graph2D<Geometry,StandStyle>
@@ -46,7 +46,9 @@ type NearestData2 = NearestDataCom&{
 	path: Segment2 | null
 }
 
-/* 不同的物体会有不同的求交方式 */
+/* 不同的物体会有不同的求交方式 
+ray 默认其处于世界坐标系中
+*/
 const intersectLib = {
   PolyGeometry:(ray: Ray2, object:Graph2D<PolyGeometry,StandStyle>): IntersectResult => {
 		const { geometry:{position} } = object
@@ -58,7 +60,7 @@ const intersectLib = {
 			path: null,
 		}
 
-		/* 遍历PolyGeometry图形中的线段 */
+		/* 遍历PolyExtend图形中的线段 */
     for(let i=0;i<len;i+=2){
       const j=(i+2)%len
       let curPath = new Segment2(
@@ -166,28 +168,24 @@ function intersectBoundingBox(ray: Ray2, boundingBox: BoundingBox) {
 		origin: O,
 		origin: { x: ox, y: oy },
 		direction: v,
-		direction: { x: dx, y: dy },
+		direction: { x: vx, y: vy },
 	} = ray
 	const {
 		min: { x: minX, y: minY },
 		max: { x: maxX, y: maxY },
 	} = boundingBox
-	if (dy === 0) {
+	if (vy === 0) {
 		const b1 = oy > minY && oy < maxY
 		const b2 =
 			new Vector2(minX - ox, 0).dot(v) > 0 ||
 			new Vector2(maxX - ox, 0).dot(v) > 0
-		if (b1 && b2) {
-			return true
-		}
-	} else if (dx === 0) {
+    return b1 && b2
+	} else if (vx === 0) {
 		const b1 = ox > minX && ox < maxX
 		const b2 =
 			new Vector2(0, minY - oy).dot(v) > 0 ||
 			new Vector2(0, maxY - oy).dot(v) > 0
-		if (b1 && b2) {
-			return true
-		}
+      return b1 && b2
 	} else {
 		// 因变量为y的斜截式
 		const interceptY = ray.getSlopeIntercept('y')
@@ -195,10 +193,10 @@ function intersectBoundingBox(ray: Ray2, boundingBox: BoundingBox) {
 		const interceptX =ray.getSlopeIntercept('x')
 
 		// 射线与包围盒的四条边所在的直线的4个交点减O
-		const OA1 = new Vector2(minX, interceptY(minX)).sub(O)
-		const OA2 = new Vector2(maxX, interceptY(maxX)).sub(O)
-		const OB1 = new Vector2(interceptX(minY), minY).sub(O)
-		const OB2 = new Vector2(interceptX(maxY), maxY).sub(O)
+    const OA1 = new Vector2(interceptX(minY), minY).sub(O)
+		const OA2 = new Vector2(interceptX(maxY), maxY).sub(O)
+		const OB1 = new Vector2(minX, interceptY(minX)).sub(O)
+		const OB2 = new Vector2(maxX, interceptY(maxX)).sub(O)
 		// OA1、OA2 中的极小值Amin和极大值Amax
 		const [Amin, Amax] = [OA1.dot(v), OA2.dot(v)].sort((a, b) =>
 			a > b ? 1 : -1
@@ -214,6 +212,8 @@ function intersectBoundingBox(ray: Ray2, boundingBox: BoundingBox) {
 	return false
 }
 
+
+
 /* 
 与单个物体的求交
 一条射线可能与一个物体存在多个交点。
@@ -227,7 +227,7 @@ function intersectObject(
 	const { geometry:{boundingBox,type} } = object
   // 先与包围盒进行碰撞检测
 	if (useBoundingBox && !intersectBoundingBox(ray, boundingBox)) {
-		// console.log('未碰撞到包围盒', object.name)
+		console.log(object.name,'未碰撞到包围盒')
 		return null
 	}
   // 再与具体图形做碰撞检测
@@ -237,6 +237,15 @@ function intersectObject(
 	return null
 }
 
+/* 获取当前点或当前圆弧的endPosition */
+function getPos1(ele: ShapeElementType) {
+	return ele instanceof Vector2 ? ele : ele.endPosition
+}
+
+/* 获取当前点或当前圆弧的startPosition */
+function getPos2(ele: ShapeElementType) {
+	return ele instanceof Vector2 ? ele : ele.startPosition
+}
 
 /* 射线与多个物体的求交 
 ray 射线
@@ -264,18 +273,20 @@ function intersectObjects(
 }
 
 /* 射线与BVH包围盒的相交 */
-function intersectBVHBox(ray: Ray2, rootBox: BVHBox) {
+function intersectBVH(ray: Ray2, rootBox: BVH) {
 	// 相交数据
 	const arr: IntersectData[] = []
+  // 遍历BVH层级
 	rootBox.traverse(
 		(box) => {
-			/* 若box没有子节点，与此box中的图形做求交运算 */
+			// 若box没有子级，与此box中的图形做求交运算
       if(!box.children.length){ 
-        const objs=intersectObjects(ray,box.objects,true,false)
+        const objects=box.targets.map(target=>target.object)
+        const objs=intersectObjects(ray,objects,true,false)
         objs&&arr.push(...objs)
       }
 		},
-		(box) => intersectBoundingBox(ray, box)
+		(box) => intersectBoundingBox(ray, box.boundingBox)
 	)
   if (arr.length) {
 		// 按照相交距离排序
@@ -285,14 +296,4 @@ function intersectBVHBox(ray: Ray2, rootBox: BVHBox) {
 	return null
 }
 
-/* 获取当前点或当前圆弧的endPosition */
-function getPos1(ele: ShapeElementType) {
-	return ele instanceof Vector2 ? ele : ele.endPosition
-}
-
-/* 获取当前点或当前圆弧的startPosition */
-function getPos2(ele: ShapeElementType) {
-	return ele instanceof Vector2 ? ele : ele.startPosition
-}
-
-export { intersectObject,intersectObjects,intersectBoundingBox,intersectBVHBox }
+export { intersectObject,intersectObjects,intersectBoundingBox,intersectBVH }

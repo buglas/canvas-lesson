@@ -47,6 +47,9 @@ class GeometryGroup{
     })
     return this
   }
+  getBoundingBoxByMatrix(m:Matrix3){
+    return this.clone().applyMatrix3(m).computeBoundingBox().boundingBox
+  }
   clone(){
     return new GeometryGroup().copy(this)
   }

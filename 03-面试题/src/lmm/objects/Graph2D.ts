@@ -3,6 +3,7 @@ import { Object2D } from '../core/Object2D'
 import { Geometry } from '../geometry/Geometry'
 import { GeometryGroup } from '../geometry/GeometryGroup'
 import { Vector2 } from '../math/Vector2'
+import { Matrix3 } from '../math/Matrix3'
 
 /* 虚拟上下文对象 */
 const virtuallyCtx = document
@@ -29,6 +30,12 @@ class Graph2D<S extends Geometry|GeometryGroup,T extends StandStyle> extends Obj
 		const bool = virtuallyCtx.isPointInPath(point.x, point.y)
 		virtuallyCtx.restore()
 		return bool
+  }
+
+  /* 获取物体在世界坐标系内的边界 */
+  getWorldBoundingBox(){
+    const {geometry,worldMatrix}=this
+    return geometry.getBoundingBoxByMatrix(worldMatrix)
   }
 
 	/* 绘图 */

@@ -26,6 +26,9 @@ onMounted(() => {
 		<router-link to="/NStar">多角星</router-link>
 		<router-link to="/CollisionRebound">圆形与多边形碰撞反弹</router-link>
 		<router-link to="/BulletScreenTest">弹幕</router-link>
+		<router-link to="/BoundingBox">包围盒</router-link>
+		<router-link to="/BVH01">BVH 的显示</router-link>
+		<router-link to="/BVH02">BVH 碰撞测试</router-link>
 	</nav>
 </template>
 
