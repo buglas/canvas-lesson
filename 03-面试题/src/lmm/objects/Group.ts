@@ -1,13 +1,17 @@
-import { Object2D, Object2DType } from '../core/Object2D'
+import { Object2D } from '../core/Object2D'
+import { Geometry } from '../geometry/Geometry'
+import { GeometryGroup } from '../geometry/GeometryGroup'
+import { StandStyle } from '../style/StandStyle'
+import { Graph2D } from './Graph2D'
 
 class Group extends Object2D {
 	// 子集
-	children: Object2D[] = []
+	children: ChildType[] = []
 	// 类型
 	readonly isGroup = true
 
 	/* 添加元素 */
-	add(...objs: Object2D[]) {
+	add(...objs: ChildType[]) {
 		for (let obj of objs) {
 			obj.parent && obj.remove()
 			obj.parent = this
@@ -23,7 +27,7 @@ class Group extends Object2D {
 	}
 
 	/* 删除元素 */
-	remove(...objs: Object2D[]) {
+	remove(...objs: ChildType[]) {
 		const { children } = this
 		for (let obj of objs) {
 			const index = children.indexOf(obj)
@@ -69,7 +73,7 @@ class Group extends Object2D {
 	}
 
 	/* 根据某个属性的值获取子对象 */
-	getObjectByProperty<T>(name: string, value: T): Object2D | undefined {
+	getObjectByProperty<T>(name: string, value: T): ChildType | undefined {
 		const { children } = this
 		for (let i = 0, l = children.length; i < l; i++) {
 			const child = children[i]
@@ -86,7 +90,7 @@ class Group extends Object2D {
 	}
 
 	/* 遍历元素 */
-	traverse(callback: (obj: Object2D) => void) {
+	traverse(callback: (obj: ChildType) => void) {
 		callback(this)
 		const { children } = this
 		for (let child of children) {
@@ -99,7 +103,7 @@ class Group extends Object2D {
 	}
 
 	/* 遍历可见元素 */
-	traverseVisible(callback: (obj: Object2D) => void) {
+	traverseVisible(callback: (obj: ChildType) => void) {
 		if (!this.visible) {
 			return
 		}
@@ -126,5 +130,7 @@ class Group extends Object2D {
 		}
 	}
 }
+
+type ChildType=Graph2D<Geometry|GeometryGroup,StandStyle>|Group
 
 export { Group }

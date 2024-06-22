@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
 	{
     path: '/',
-		component: () => import('../examples/Graph2D.vue'),
+		component: () => import('../examples/Graph2DTest.vue'),
 	},
 	{
     path: '/NStar',
@@ -28,6 +28,18 @@ const routes = [
   {
 		path: '/BVH02',
 		component: () => import('../examples/BVH02.vue'),
+	},
+  {
+		path: '/Dijkstra',
+		component: () => import('../examples/Dijkstra.vue'),
+	},
+  {
+		path: '/Heuristic01',
+		component: () => import('../examples/Heuristic01.vue'),
+	},
+  {
+		path: '/Heuristic02',
+		component: () => import('../examples/Heuristic02.vue'),
 	},
 ]
 const router = createRouter({

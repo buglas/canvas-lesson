@@ -29,6 +29,9 @@ onMounted(() => {
 		<router-link to="/BoundingBox">包围盒</router-link>
 		<router-link to="/BVH01">BVH 的显示</router-link>
 		<router-link to="/BVH02">BVH 碰撞测试</router-link>
+		<router-link to="/Dijkstra">Dijkstra 寻路</router-link>
+		<router-link to="/Heuristic01">Heuristic 寻路-01</router-link>
+		<router-link to="/Heuristic02">Heuristic 寻路-02</router-link>
 	</nav>
 </template>
 
